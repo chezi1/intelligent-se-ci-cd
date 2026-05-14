@@ -17,12 +17,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run LLM Code Reviewer
+      - name: Run DeepSeek Code Reviewer
         uses: coderabbitai/ai-pr-reviewer@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} 
+          # 这里把你的 DeepSeek Key 伪装成 OpenAI 的 Key 传给插件
+          OPENAI_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }} 
         with:
           debug: false
           review_simple_changes: false
           review_comment_lgtm: false
+          # 核心魔法：把请求地址强行指向 DeepSeek 的服务器，并指定模型
+          openai_base_url: "https://api.deepseek.com/v1" 
+          openai_light_model: "deepseek-chat" 
+          openai_heavy_model: "deepseek-chat"
+          system_message: "你是一个资深的Python安全与开发专家。请审查提供的代码变更，指出其中的逻辑漏洞、安全隐患（如eval注入）、边界未处理等问题，并提供修改建议。请用中文回复。"
