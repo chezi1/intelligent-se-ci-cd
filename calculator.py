@@ -6,3 +6,7 @@ def process_data(user_input):
     # 模拟一个处理数据的函数，使用了危险的 eval()
     result = eval(user_input)
     return result
+    
+def test_bug():
+    # 故意放一个 eval 让大模型骂
+    return eval("1+1")
