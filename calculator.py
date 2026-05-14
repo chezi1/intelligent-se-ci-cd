@@ -10,3 +10,7 @@ def process_data(user_input):
 def test_bug():
     # 故意放一个 eval 让大模型骂
     return eval("1+1")
+def very_bad_function(user_input):
+    # 这是一个极其危险的函数，绝对会被AI骂
+    print("Running dangerous code...")
+    return eval(user_input)
